@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dynamic Quiz App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    <h1>🎯 Dynamic Quiz Generator</h1>
+    
+    <form id="topicForm">
+      <input type="text" id="topicInput" placeholder="Enter a Topic..." required>
+      <button type="submit">Generate Quiz</button>
+    </form>
+
+    <div id="quizSection" class="hidden">
+      <h2>Quiz: <span id="quizTopic"></span></h2>
+      <div id="questionsContainer"></div>
+      <button id="submitQuiz" class="hidden">Submit Answers</button>
+      <div id="loading" class="hidden">
+        <div class="spinner"></div>
+        <p>Generating your quiz...</p>
+      </div>
+      
+      <div id="scoreSection"></div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
