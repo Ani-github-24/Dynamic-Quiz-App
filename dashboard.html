@@ -9,6 +9,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
 </head>
 <body class="dashboard-body">
+  <canvas id="artCanvas"></canvas>
 
   <header class="dashboard-header">
     <h1 id="welcomeMessage">Welcome!</h1>
@@ -32,9 +33,31 @@
       <h2>∫ Calculus</h2>
       <p>Limits, derivatives, integrals</p>
     </div>
+
+    <div class="tile" onclick="startQuiz('statistics')">
+      <h2>📊 Statistics</h2>
+      <p>Probability, data, and trends</p>
+    </div>
+    <div class="tile" onclick="startQuiz('trigonometry')">
+      <h2>📐 Trigonometry</h2>
+      <p>Angles and functions</p>
+    </div>
+    <div class="tile" onclick="startQuiz('logic')">
+      <h2>🧠 Logic</h2>
+      <p>Reasoning and puzzles</p>
+    </div>
+    <div class="tile" onclick="startQuiz('history')">
+      <h2>📜 History</h2>
+      <p>Learn from the past</p>
+    </div>
+    <div class="tile" onclick="startQuiz('science')">
+      <h2>🔬 Science</h2>
+      <p>Explore the universe</p>
+    </div>
+        
     <!-- Add more topics as needed -->
   </main>
-
+  <script src="art.js"></script>
   <script src="dashboard.js"></script>
 </body>
 </html>

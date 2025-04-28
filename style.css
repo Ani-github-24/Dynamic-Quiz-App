@@ -166,3 +166,24 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+
+
+
+  
+  #artCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Stay in the background */
+    background: #111; /* Dark background */
+  }
+  
+  .container {
+    position: relative;
+    z-index: 1; /* Bring your content above the canvas */
+    padding: 20px;
+  }
+  

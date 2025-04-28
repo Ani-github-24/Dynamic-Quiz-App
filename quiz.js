@@ -1,13 +1,6 @@
 // Initialize Firebase (again)
-const firebaseConfig = {
-    apiKey: "AIzaSyBrzGjYJjr1aQV_2QWS7mnOc5wUJcj9ixI",
-    authDomain: "dynamic-quiz-page.firebaseapp.com",
-    projectId: "dynamic-quiz-page",
-    storageBucket: "dynamic-quiz-page.firebasestorage.app",
-    messagingSenderId: "552535960214",
-    appId: "1:552535960214:web:9c2e83b610ceb13f7c30b7",
-    measurementId: "G-H6LSVS9RMY"
-};
+import firebaseConfig from './firebaseConfig.js';
+
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();

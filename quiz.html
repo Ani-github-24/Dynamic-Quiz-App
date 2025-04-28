@@ -5,8 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dynamic Quiz App</title>
   <link rel="stylesheet" href="style.css">
+  
+  <style>
+    @keyframes popUp {
+      0% { transform: scale(0.5); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+    
+    .pop-animation {
+      animation: popUp 0.5s ease forwards;
+    }
+    </style>
+
+
 </head>
 <body>
+  <canvas id="artCanvas"></canvas>
 
   <div class="container">
     <h1>🎯 Dynamic Quiz Generator</h1>
@@ -26,13 +41,39 @@
         <div class="spinner"></div>
         <p>Generating your quiz...</p>
       </div>
-
+      <button id="giveFeedbackBtn" class="hidden">Give Feedback</button>
       <!-- Display score after quiz submission -->
       <div id="scoreSection"></div>
+
+      
+
+
+      <!-- After scoreSection -->
+<div id="feedbackSection" class="hidden">
+  <h2>We value your feedback! ✨</h2>
+  
+  <form id="feedbackForm" style="display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: auto;">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="text" id="phone" placeholder="Phone Number" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="date" id="dob" required>
+    <input type="text" id="topicLiked" placeholder="Topic You Liked" required>
+    <textarea id="suggestion" placeholder="Any Suggestion?" rows="4" required></textarea>
+    
+    <button type="submit" style="margin-top: 10px;">Submit Feedback</button>
+  </form>
+  
+  <div id="feedbackMessage" style="text-align: center; margin-top: 20px; font-size: 18px;"></div>
+  
+  
+</div>
+
     </div>
+
     
   </div>
-
+  <script src="config.js"></script>
+  <script src="art.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
