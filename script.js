@@ -1,39 +1,49 @@
-const topicForm = document.getElementById('topicForm');
-const topicInput = document.getElementById('topicInput');
-const quizSection = document.getElementById('quizSection');
-const quizTopic = document.getElementById('quizTopic');
-const questionsContainer = document.getElementById('questionsContainer');
-const submitQuiz = document.getElementById('submitQuiz');
-const scoreSection = document.getElementById('scoreSection');
-
-topicForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const topic = topicInput.value.trim();
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the topic from the URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const topic = urlParams.get('topic') || localStorage.getItem('selectedTopic');
   
-  if (topic) {
-    quizTopic.textContent = topic;
-    quizSection.classList.remove('hidden');
-    questionsContainer.innerHTML = '';
-    scoreSection.innerHTML = '';
-    submitQuiz.classList.remove('hidden');
-
-    loading.classList.remove('hidden'); // Show loading spinner
-    // Get questions from Gemini API
+    if (!topic) {
+      window.location.href = "dashboard.html"; // Redirect to dashboard if no topic is selected
+    } else {
+      // Initialize quiz page
+      initializeQuiz(topic);
+    }
+  });
+  
+  async function initializeQuiz(topic) {
+    // Get elements for displaying the quiz
+    const quizTopic = document.getElementById('quizTopic');
+    const quizSection = document.getElementById('quizSection');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const submitQuiz = document.getElementById('submitQuiz');
+    const loading = document.getElementById('loading');
+    const scoreSection = document.getElementById('scoreSection');
+  
+    quizTopic.textContent = topic; // Display the selected topic
+    quizSection.classList.remove('hidden'); // Show the quiz section
+  
+    // Show loading spinner
+    loading.classList.remove('hidden');
+  
+    // Get quiz data from Gemini API
     const quizData = await fetchQuizQuestions(topic);
-    loading.classList.add('hidden'); // Hide loading spinner
-    
-
+  
+    // Hide loading spinner after receiving the questions
+    loading.classList.add('hidden');
+  
     if (quizData.length === 0) {
       questionsContainer.innerHTML = "<p>Sorry, couldn't generate quiz questions. Please try another topic.</p>";
       submitQuiz.classList.add('hidden');
       return;
     }
-
+  
+    // Loop through the questions and dynamically create HTML for each question
     quizData.forEach((q, idx) => {
-      const block = document.createElement('div');
-      block.classList.add('question-block');
+      const questionBlock = document.createElement('div');
+      questionBlock.classList.add('question-block');
       
-      block.innerHTML = `
+      questionBlock.innerHTML = `
         <p><strong>Q${idx + 1}. ${q.question}</strong></p>
         ${q.options.map((opt, i) => `
           <label>
@@ -42,36 +52,38 @@ topicForm.addEventListener('submit', async (e) => {
           </label><br>
         `).join('')}
       `;
-      questionsContainer.appendChild(block);
+      questionsContainer.appendChild(questionBlock);
     });
-
+  
+    // Show submit button once the questions are loaded
+    submitQuiz.classList.remove('hidden');
+  
+    // Add event listener to submit button
     submitQuiz.onclick = () => checkAnswers(quizData);
   }
-});
-
-// 🔥 Your Gemini API Call Here
-async function fetchQuizQuestions(topic) {
-    const GEMINI_API_KEY = 'AIzaSyD-yM_kwCQXDkRRjWN-Z-SKb3UHgHiuj7Y'; // 🔥
   
+  // Function to fetch quiz questions from the Gemini API
+  async function fetchQuizQuestions(topic) {
+    const GEMINI_API_KEY = 'AIzaSyD-yM_kwCQXDkRRjWN-Z-SKb3UHgHiuj7Y'; // Replace with your actual API Key
     const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_API_KEY;
-  
+    
     const prompt = `
-  You are a quiz generator.
-  Create 10 multiple-choice questions about "${topic}".
-  Each question must have:
-  - 1 correct answer
-  - 3 incorrect options
-  Respond ONLY with a JSON array like:
-  [
-    {
-      "question": "Your question?",
-      "options": ["Option1", "Option2", "Option3", "Option4"],
-      "answer": "Correct Option"
-    },
-    ...
-  ]
-  Do NOT add any explanation or extra text.
-  `;
+    You are a quiz generator.
+    Create 10 multiple-choice questions about "${topic}".
+    Each question must have:
+    - 1 correct answer
+    - 3 incorrect options
+    Respond ONLY with a JSON array like:
+    [
+      {
+        "question": "Your question?",
+        "options": ["Option1", "Option2", "Option3", "Option4"],
+        "answer": "Correct Option"
+      },
+      ...
+    ]
+    Do NOT add any explanation or extra text.
+    `;
   
     const requestBody = {
       contents: [
@@ -93,7 +105,7 @@ async function fetchQuizQuestions(topic) {
       const data = await response.json();
       const generatedText = data.candidates[0]?.content?.parts[0]?.text || "";
   
-      // 🔥 Clean the output: find only the JSON part
+      // Extract the quiz JSON from the response
       const jsonStart = generatedText.indexOf('[');
       const jsonEnd = generatedText.lastIndexOf(']');
       if (jsonStart !== -1 && jsonEnd !== -1) {
@@ -110,11 +122,10 @@ async function fetchQuizQuestions(topic) {
     }
   }
   
-
-// ✨ Function to Check Answers
-function checkAnswers(quizData) {
+  // Function to check answers and calculate score
+  function checkAnswers(quizData) {
     let score = 0;
-    
+  
     quizData.forEach((q, idx) => {
       const options = document.getElementsByName(`question${idx}`);
       let selected = null;
@@ -122,7 +133,7 @@ function checkAnswers(quizData) {
       options.forEach((opt) => {
         if (opt.checked) selected = opt;
         
-        // Reset colors before marking
+        // Reset styles for each option
         opt.parentElement.style.color = 'initial';
         opt.parentElement.style.fontWeight = 'normal';
       });
@@ -139,12 +150,14 @@ function checkAnswers(quizData) {
         if (selected.value === q.answer) {
           score++;
         } else {
-          // Highlight wrong selected answer in red
+          // Highlight wrong selected answer
           selected.parentElement.style.color = 'red';
         }
       }
     });
   
+    // Display score after quiz submission
+    const scoreSection = document.getElementById('scoreSection');
     scoreSection.innerHTML = `
       <div style="margin-top: 20px; font-size: 20px;">
         You scored <strong>${score}</strong> out of <strong>${quizData.length}</strong>! 🎉

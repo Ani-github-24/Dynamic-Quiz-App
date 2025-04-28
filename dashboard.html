@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - Quiz App</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+</head>
+<body class="dashboard-body">
+
+  <header class="dashboard-header">
+    <h1 id="welcomeMessage">Welcome!</h1>
+    <button id="logoutButton">Logout</button>
+  </header>
+
+  <main class="tiles-container">
+    <div class="tile" onclick="startQuiz('random')">
+      <h2>🎲 Random Quiz</h2>
+      <p>Mix of all topics</p>
+    </div>
+    <div class="tile" onclick="startQuiz('algebra')">
+      <h2>➗ Algebra</h2>
+      <p>Master your equations!</p>
+    </div>
+    <div class="tile" onclick="startQuiz('geometry')">
+      <h2>📐 Geometry</h2>
+      <p>Shapes, sizes and more</p>
+    </div>
+    <div class="tile" onclick="startQuiz('calculus')">
+      <h2>∫ Calculus</h2>
+      <p>Limits, derivatives, integrals</p>
+    </div>
+    <!-- Add more topics as needed -->
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

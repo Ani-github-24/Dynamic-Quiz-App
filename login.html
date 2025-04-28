@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Quiz App</title>
+  <link rel="stylesheet" href="login.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <h2 id="formTitle">Welcome Back! 👋</h2>
+    
+    <!-- Login Form -->
+    <form id="loginForm">
+      <input type="email" id="emailInput" placeholder="Email" required>
+      <input type="password" id="passwordInput" placeholder="Password" required autocomplete="current-password">
+      <button type="submit" id="signInButton">Login</button>
+    </form>
+
+    <!-- Sign-Up Form -->
+    <form id="signUpForm" style="display:none;">
+      <input type="email" id="signUpEmail" placeholder="Email" required>
+      <input type="password" id="signUpPassword" placeholder="Password" required autocomplete="new-password">
+      <button type="submit" id="signUpButton">Sign Up</button>
+    </form>
+
+    <!-- Toggle between Login and Sign-Up -->
+    <p id="toggleText">Don't have an account? <a href="#" id="toggleLink">Sign Up</a></p>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
